@@ -1,5 +1,4 @@
 "use strict";
-
 // ==================================================================================================================
 // Exercitiul 1:
 //     Creați clasa AngajatIT cu următoarele:
@@ -19,26 +18,38 @@ class AngajatiIT {
   }
 
   afiseazaVarsta() {
-    var anScurt = parseInt(this.cnp.slice(1, 3));
-    var anLung = parseInt("19" + anScurt);
-    var d = new Date();
-    var n = d.getFullYear();
-    var varsta = n - anLung;
-    console.log(this.prenume + " " + this.nume + " are " + varsta + " de ani.");
+    const anNastereScurt = this.cnp.slice(1, 3);
+    const lunaNastere = this.cnp.slice(3, 5);
+    const ziNastere = this.cnp.slice(5, 7);
+    const anCurent = new Date().getUTCFullYear().toString();
+    const anCurentScurt = anCurent.substring(2);
+    const lunaCurenta = new Date().getUTCMonth() + 1;
+    const ziCurenta = new Date().getUTCDate();
+
+    if (anNastereScurt >= "00" && anNastereScurt <= anCurentScurt) {
+      var anNastereLung = "20" + anNastereScurt;
+      var anulNasterii = parseInt(anNastereLung);
+    } else {
+      var anNastereLung = "19" + anNastereScurt;
+      var anulNasterii = parseInt(anNastereLung);
+    }
+    const fullName = `${this.nume} ${this.prenume}`;
+
+    if (lunaNastere <= lunaCurenta && ziNastere <= ziCurenta) {
+      var varsta = anCurent - anulNasterii;
+    } else {
+      var varsta = anCurent - anulNasterii - 1;
+    }
+
+    console.log(fullName + " are " + varsta + " de ani.");
   }
 
   afiseazaAnulAngajarii() {
     var d = new Date();
     var n = d.getFullYear();
     var anAngajare = n - this.vechime;
-    console.log(
-      this.prenume +
-        " " +
-        this.nume +
-        " a inceput sa munceasca in anul " +
-        anAngajare +
-        "."
-    );
+    var fullName = `${this.nume} ${this.prenume}`;
+    console.log(fullName + " a inceput sa munceasca in anul " + anAngajare + ".");
   }
 
   lucreaza() {
@@ -52,7 +63,8 @@ class QA extends AngajatiIT {
   }
 
   lucreaza() {
-    console.log(this.prenume + " " + this.nume + " testeaza software.");
+    const fullName = `${this.nume} ${this.prenume}`;
+    console.log(fullName + " testeaza software.");
   }
 }
 
@@ -62,7 +74,8 @@ class Developer extends AngajatiIT {
   }
 
   lucreaza() {
-    console.log(Developer.prenume + " scrie cod.");
+    const fullName = `${this.nume} ${this.prenume}`;
+    console.log(fullName + " scrie cod.");
   }
 }
 
@@ -85,15 +98,11 @@ async function getRandomUser() {
   const result = await fetch(URL);
   const data = await result.json();
   console.log(data);
-  document
-    .getElementById("picture")
-    .setAttribute("src", data.results[0].picture.large);
-  document.getElementById(
-    "name"
-  ).innerHTML = `${data.results[0].name.title} ${data.results[0].name.first} ${data.results[0].name.last}`;
-  document.getElementById("gender").innerHTML = `${data.results[0].gender}`;
-  document.getElementById("email").innerHTML = `${data.results[0].email}`;
-  document.getElementById("age").innerHTML = `${data.results[0].dob.age}`;
+  document.getElementById("picture").setAttribute("src", data.results[0].picture.large);
+  document.getElementById("name").innerHTML = `${data.results[0].name.title} ${data.results[0].name.first} ${data.results[0].name.last}`;
+  document.getElementById("gender").innerHTML = data.results[0].gender;
+  document.getElementById("email").innerHTML = data.results[0].email;
+  document.getElementById("age").innerHTML = data.results[0].dob.age;
 }
 
 document.getElementById("fetch").addEventListener("click", getRandomUser);
@@ -110,20 +119,15 @@ console.log("Exercitiul 3");
 
 const arr1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const myFunction = (value) => {
-  console.log(value + value * 15);
-};
-
-arr1.map(myFunction);
-
-const [a, b, c, d, e, f, g, h, i, j, k] = arr1;
-const arr2 = [a, b, c, d, e, f, g, h, i, j, k];
-
-for (var x = 0; x <= arr2.length - 1; x++) {
-  var y = arr2[x];
-  var y = y * 11;
-  arr2[x] = y;
+for (var x = 0; x < arr1.length; x++) {
+  var y = arr1[x];
+  var y = y + y * 15;
+  console.log(y);
 }
+
+const arrNew = [...arr1];
+
+const arr2 = arrNew.map((x) => x * 11);
 
 console.log("arr1 equals " + arr1);
 console.log("arr2 equals " + arr2);
